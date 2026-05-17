@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpaydemo/controller/payment_controller.dart';
-import 'package:razorpaydemo/models/movie_model.dart';
 
-
+import '../models/movie_model.dart';
 
 class TicketScreen extends StatelessWidget {
 
@@ -19,57 +18,139 @@ class TicketScreen extends StatelessWidget {
 
     return Scaffold(
 
+      backgroundColor: Colors.black,
+
       appBar: AppBar(
-        title: Text(movie.name),
+
+        backgroundColor: Colors.black,
+
+        title: Text(
+          movie.name,
+        ),
       ),
 
       body: Consumer<PaymentController>(
 
         builder: (context, controller, child) {
 
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          return TweenAnimationBuilder(
 
-            children: [
+            duration: const Duration(seconds: 1),
 
-              Hero(
-                tag: movie.name,
+            tween: Tween<double>(
+              begin: 0,
+              end: 1,
+            ),
 
-                child: Image.asset(
-                  movie.image,
-                  height: 250,
-                ),
+            builder: (context, value, child) {
+
+              return Opacity(
+
+                opacity: value,
+
+                child: child,
+              );
+            },
+
+            child: Center(
+
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+
+                children: [
+
+                  Hero(
+
+                    tag: movie.name,
+
+                    child: ClipRRect(
+
+                      borderRadius: BorderRadius.circular(20),
+
+                      child: Image.asset(
+
+                        movie.image,
+
+                        height: 350,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  Text(
+
+                    movie.name,
+
+                    style: const TextStyle(
+
+                      color: Colors.white,
+
+                      fontSize: 30,
+
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  Text(
+
+                    "Ticket Price : ₹${movie.price}",
+
+                    style: const TextStyle(
+
+                      color: Colors.white70,
+
+                      fontSize: 22,
+                    ),
+                  ),
+
+                  const SizedBox(height: 40),
+
+                  controller.isLoading
+
+                      ? const CircularProgressIndicator()
+
+                      : AnimatedContainer(
+
+                    duration: const Duration(
+                      milliseconds: 500,
+                    ),
+
+                    child: ElevatedButton(
+
+                      style: ElevatedButton.styleFrom(
+
+                        backgroundColor: Colors.red,
+
+                        padding: const EdgeInsets.symmetric(
+
+                          horizontal: 40,
+                          vertical: 15,
+                        ),
+                      ),
+
+                      onPressed: () {
+
+                        controller.openPayment(
+                          context: context,
+                        );
+                      },
+
+                      child: const Text(
+
+                        "Book Ticket",
+
+                        style: TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-
-              const SizedBox(height: 20),
-
-              Text(
-                "Price : ₹${movie.price}",
-                style: const TextStyle(
-                  fontSize: 24,
-                ),
-              ),
-
-              const SizedBox(height: 30),
-
-              controller.isLoading
-
-                  ? const CircularProgressIndicator()
-
-                  : ElevatedButton(
-
-                onPressed: () {
-
-                  controller.openPayment(
-                    context: context,
-                  );
-                },
-
-                child: const Text(
-                  "Pay Now",
-                ),
-              ),
-            ],
+            ),
           );
         },
       ),
