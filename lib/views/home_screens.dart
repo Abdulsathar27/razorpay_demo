@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:razorpaydemo/models/movie_model.dart';
+import 'package:razorpaydemo/views/movie_card.dart';
 
 
 
@@ -22,7 +23,7 @@ class HomeScreen extends StatelessWidget {
       ),
 
       body: Center(
-        // child: MovieCard(movie: movie),
+        child: MovieCard(movie: movie),
       ),
     );
   }
