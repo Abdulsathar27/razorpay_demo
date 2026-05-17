@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:razorpaydemo/services/razorpay_service.dart';
+import 'package:razorpaydemo/views/success_screen.dart';
 
 
 
@@ -56,14 +57,14 @@ class PaymentController extends ChangeNotifier {
 
     notifyListeners();
 
-    // Navigator.pushReplacement(
+    Navigator.pushReplacement(
 
-    //   _context,
+      _context,
 
-    //   MaterialPageRoute(
-    //     builder: (_) => const SuccessScreen(),
-    //   ),
-    // );
+      MaterialPageRoute(
+        builder: (_) => const SuccessScreen(),
+      ),
+    );
   }
 
   void _handlePaymentError(
