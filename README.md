@@ -1,17 +1,35 @@
-# razorpaydemo
+# Razorpay Flutter Demo
 
-A new Flutter project.
+This project demonstrates a Flutter ticket checkout using `razorpay_flutter`.
 
-## Getting Started
+## Run
 
-This project is a starting point for a Flutter application.
+Use your own Razorpay key while running the app:
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+flutter run --dart-define=RAZORPAY_KEY=rzp_test_your_key_here
+```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+If `RAZORPAY_KEY` is missing or invalid, app now shows a one-time setup dialog, saves the key locally, and continues checkout.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Why "No appropriate payment method found" happens
+
+This error is usually not a Flutter UI bug. It is most often caused by account setup:
+
+1. Wrong key mode (`rzp_test_` vs `rzp_live_`).
+2. Payment methods not enabled for the active Razorpay account.
+3. Currency or account setup mismatch.
+
+Check in Razorpay Dashboard:
+
+1. `Account & Settings -> API Keys`
+2. `Account & Settings -> Payment Methods`
+
+## Smooth production flow (recommended)
+
+1. Create an `order_id` from your backend for every payment.
+2. Pass that `order_id` to checkout options.
+3. Verify payment signature on backend.
+4. Mark booking as confirmed only after backend verification/capture status.
+
+Without backend order + verification, successful UI callback alone is not enough for a reliable production flow.
